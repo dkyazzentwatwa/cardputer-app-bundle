@@ -7,6 +7,9 @@ This repo gathers several Cardputer projects in one place and adapts them for
 local Arduino CLI builds. It is meant for learning, tinkering, and testing app
 ideas before anything is promoted into a larger Cardputer operating system.
 
+If you want the integrated Cardputer OS that brings these apps together, see
+[dkyazzentwatwa/cypher-puter-os](https://github.com/dkyazzentwatwa/cypher-puter-os).
+
 ## What Is In Here
 
 Each folder is its own app:
@@ -175,3 +178,7 @@ Arduino packages, and attached modules.
 
 Build success means the source compiled. It does not automatically prove the app
 has been tested on your exact hardware.
+
+For the more complete integrated experience, use
+[cypher-puter-os](https://github.com/dkyazzentwatwa/cypher-puter-os). This repo
+is useful when you want to inspect, build, or adapt the individual app sources.
