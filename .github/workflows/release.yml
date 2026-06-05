@@ -1,0 +1,29 @@
+name: Release app bundle
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: arduino/setup-arduino-cli@v2
+
+      - name: Build release binaries
+        run: ./tools/package-release.sh
+
+      - name: Attach app bundle assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/release/*.bin
+            dist/release/BUILD_REPORT.md
+          fail_on_unmatched_files: true
+

@@ -46,6 +46,8 @@ const std::string ModeSelection::getSelectionModeToString(SelectionModeEnum mode
             return "RESTORE SEED";
         case SelectionModeEnum::INFOS:
             return "      INFORMATIONS";
+        case SelectionModeEnum::RETURN_TO_LAUNCHER:
+            return "RETURN TO CYPHER OS";
         default:
             return "UNKNOWN";
     }
@@ -63,6 +65,8 @@ const std::string ModeSelection::getSelectionModeDescription(SelectionModeEnum m
             return "secret";
         case SelectionModeEnum::INFOS:
             return "";
+        case SelectionModeEnum::RETURN_TO_LAUNCHER:
+            return "launcher";
         default:
             return "UNKNOWN";
     }

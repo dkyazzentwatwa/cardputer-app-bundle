@@ -1,11 +1,12 @@
-# New Cardputer Apps
+# Cardputer App Bundle
 
 A beginner-friendly staging collection of experimental apps for the
 [M5Stack Cardputer](https://shop.m5stack.com/products/m5stack-cardputer-kit-w-m5stamps3).
 
 This repo gathers several Cardputer projects in one place and adapts them for
-local Arduino CLI builds. It is meant for learning, tinkering, and testing app
-ideas before anything is promoted into a larger Cardputer operating system.
+local Arduino CLI builds. It is the public source bundle used by Cypher OS for
+these catalog apps, while still being useful for learning, tinkering, and
+testing individual app ideas.
 
 If you want the integrated Cardputer OS that brings these apps together, see
 [dkyazzentwatwa/cypher-puter-os](https://github.com/dkyazzentwatwa/cypher-puter-os).
@@ -90,6 +91,17 @@ This repo includes a helper script that compiles every staged app into the local
 
 `_arduino-build/` is ignored by Git because it contains generated build output.
 
+## Package Release Binaries
+
+Build all apps and collect public `.bin` assets under `dist/release/`:
+
+```sh
+./tools/package-release.sh
+```
+
+The release package contains sketch app binaries only, not merged images,
+bootloader images, or partition-table images.
+
 ## Flashing A Cardputer
 
 First plug in your Cardputer and find its port:
@@ -120,6 +132,9 @@ cp News-Reader/src/secrets.h.template News-Reader/src/secrets.h
 
 Then edit `News-Reader/src/secrets.h` with your Wi-Fi name, Wi-Fi password, and
 Guardian API key. That file is ignored by Git.
+
+For Cypher OS SD-card builds, prefer `/news-reader/config.txt` on the SD card
+instead of compiling local secrets into the app binary.
 
 For emulator apps, bring your own legal ROM files. This repo does not include
 game ROMs.
@@ -172,9 +187,9 @@ Please keep generated files out of commits. Build outputs, local secrets,
 
 ## Status
 
-This is a staging repo, not a polished product bundle. Apps may compile, flash,
-or behave differently depending on your board revision, SD card, installed
-Arduino packages, and attached modules.
+This is a source bundle for experimental Cardputer apps. Apps may compile,
+flash, or behave differently depending on your board revision, SD card,
+installed Arduino packages, and attached modules.
 
 Build success means the source compiled. It does not automatically prove the app
 has been tested on your exact hardware.

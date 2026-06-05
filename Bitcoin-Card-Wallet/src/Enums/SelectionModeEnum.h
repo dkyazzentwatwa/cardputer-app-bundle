@@ -9,6 +9,7 @@ enum class SelectionModeEnum {
     LOAD_SD,
     LOAD_SEED,
     INFOS,
+    RETURN_TO_LAUNCHER,
     COUNT
 };
 

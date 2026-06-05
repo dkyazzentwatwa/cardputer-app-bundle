@@ -33,3 +33,6 @@ The default pin configuration for the SD card reader is as follows:
 1. Insert an SD card into the reader.
 2. Power on the ESP32-S3 and connect it to a USB host (e.g., a PC).
 3. The SD card will appear as a USB mass storage device.
+
+When launched from Cypher OS, eject/unmount the USB disk from the host first,
+then press `Fn+Del` on the Cardputer to return to Cypher OS.

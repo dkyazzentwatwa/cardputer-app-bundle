@@ -3,6 +3,7 @@
 #ifdef CARDPUTER
 
 #include <M5Cardputer.h>
+#include "CypherLauncherReturn.h"
 char inputHandler() {
     // Update keyboard state
     M5Cardputer.update();
@@ -11,6 +12,9 @@ char inputHandler() {
 
         if (M5Cardputer.Keyboard.isPressed()) {
             Keyboard_Class::KeysState status = M5Cardputer.Keyboard.keysState();
+            if (status.fn && status.del) {
+                CypherLauncherReturn::returnToLauncher();
+            }
 
             if (status.enter) {
                 return KEY_OK;
@@ -51,4 +55,3 @@ char inputHandler() {
 }
 
 #endif
-

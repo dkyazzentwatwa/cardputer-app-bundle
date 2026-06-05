@@ -1,4 +1,5 @@
 #include "AppDispatcher.h"
+#include "CypherLauncherReturn.h"
 
 
 namespace dispatchers {
@@ -90,6 +91,10 @@ void AppDispatcher::run() {
 
         case SelectionModeEnum::INFOS:
             seedController.handleSeedInformations();
+            break;
+
+        case SelectionModeEnum::RETURN_TO_LAUNCHER:
+            CypherLauncherReturn::returnToLauncher();
             break;
     }
 }

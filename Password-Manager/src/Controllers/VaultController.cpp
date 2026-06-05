@@ -28,8 +28,8 @@ VaultController::VaultController(IView& display,
       modelTransformer(modelTransformer) {}
 
 ActionEnum VaultController::actionNoVault() {
-    std::vector<ActionEnum> availableActions = {ActionEnum::OpenVault, ActionEnum::CreateVault, ActionEnum::UpdateSettings};
-    auto actionIcons = {IconEnum::LoadVault, IconEnum::CreateVault, IconEnum::Settings};
+    std::vector<ActionEnum> availableActions = {ActionEnum::OpenVault, ActionEnum::CreateVault, ActionEnum::UpdateSettings, ActionEnum::ReturnToLauncher};
+    std::vector<IconEnum> actionIcons = {IconEnum::LoadVault, IconEnum::CreateVault, IconEnum::Settings, IconEnum::Settings};
     auto labels = ActionEnumMapper::getActionNames(availableActions);
     auto  iconNames = IconEnumMapper::getIconNames(actionIcons);
     auto selectedIndex = horizontalSelector.select("", labels, "", "", iconNames);

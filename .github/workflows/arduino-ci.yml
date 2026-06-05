@@ -1,0 +1,17 @@
+name: Arduino CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: arduino/setup-arduino-cli@v2
+
+      - name: Compile all app sketches
+        run: ./tools/compile-all-arduino.sh
+

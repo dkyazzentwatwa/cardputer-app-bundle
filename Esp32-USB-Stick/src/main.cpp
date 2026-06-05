@@ -6,6 +6,7 @@
 #include <M5Unified.h>
 #include <M5Cardputer.h>
 #include "CypherSplash.h"
+#include "CypherLauncherReturn.h"
 
 // MSC Object
 USBMSC msc;
@@ -221,5 +222,10 @@ void setup() {
 }
 
 void loop() {
+  M5Cardputer.update();
+  Keyboard_Class::KeysState keys = M5Cardputer.Keyboard.keysState();
+  if (M5Cardputer.Keyboard.isChange() && M5Cardputer.Keyboard.isPressed() && keys.fn && keys.del) {
+    CypherLauncherReturn::returnToLauncher();
+  }
   delay(1);
 }

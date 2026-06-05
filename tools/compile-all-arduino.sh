@@ -3,6 +3,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_ROOT="${ROOT}/_arduino-build"
+SHARED_INCLUDE="${ROOT}/shared"
 
 mkdir -p "${BUILD_ROOT}"
 FAILURES=()
@@ -37,6 +38,7 @@ compile_app() {
     --profile "${profile}"
     --build-path "${build_dir}"
     --warnings none
+    --build-property "compiler.cpp.extra_flags=-I${SHARED_INCLUDE}"
   )
 
   args+=("$@" "${app_dir}")

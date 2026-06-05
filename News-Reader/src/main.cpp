@@ -2,11 +2,14 @@
 #include <ArduinoJson.h>
 #include <HTTPClient.h>
 #include <M5Cardputer.h>
+#include <SD.h>
+#include <SPI.h>
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <vector>
 
 #include "CypherSplash.h"
+#include "CypherLauncherReturn.h"
 
 #if __has_include("secrets.h")
 #include "secrets.h"
@@ -36,6 +39,11 @@ constexpr int kMaxArticles = 10;
 constexpr int kLineChars = 36;
 constexpr char kKeyUp = ';';
 constexpr char kKeyDown = '.';
+constexpr int kSdCs = 12;
+constexpr int kSdMiso = 39;
+constexpr int kSdMosi = 14;
+constexpr int kSdSclk = 40;
+constexpr char kConfigPath[] = "/news-reader/config.txt";
 constexpr const char* kGuardianBase = "https://content.guardianapis.com";
 constexpr uint16_t kCypherBg = 0xffdf;
 constexpr uint16_t kCypherSurface = 0xef3f;
@@ -65,6 +73,7 @@ struct Article {
 };
 
 std::vector<Article> articles;
+SPIClass sdSPI;
 Screen screen = Screen::Query;
 String query = "technology";
 String errorText;
@@ -72,6 +81,54 @@ int selected = 0;
 int listTop = 0;
 int readLineTop = 0;
 std::vector<String> readLines;
+String wifiSsid = NEWS_WIFI_SSID;
+String wifiPassword = NEWS_WIFI_PASSWORD;
+String guardianApiKey = GUARDIAN_API_KEY;
+
+String configValue(const String& body, const String& key) {
+    int start = 0;
+    while (start < static_cast<int>(body.length())) {
+        int end = body.indexOf('\n', start);
+        if (end < 0) {
+            end = body.length();
+        }
+        String line = body.substring(start, end);
+        line.trim();
+        if (!line.startsWith("#")) {
+            const int equals = line.indexOf('=');
+            if (equals > 0) {
+                String foundKey = line.substring(0, equals);
+                foundKey.trim();
+                if (foundKey == key) {
+                    String value = line.substring(equals + 1);
+                    value.trim();
+                    return value;
+                }
+            }
+        }
+        start = end + 1;
+    }
+    return "";
+}
+
+void loadConfigFromSd() {
+    sdSPI.begin(kSdSclk, kSdMiso, kSdMosi, kSdCs);
+    if (!SD.begin(kSdCs, sdSPI)) {
+        return;
+    }
+    File file = SD.open(kConfigPath, FILE_READ);
+    if (!file) {
+        return;
+    }
+    String body = file.readString();
+    file.close();
+    String value = configValue(body, "NEWS_WIFI_SSID");
+    if (value.length() > 0) wifiSsid = value;
+    value = configValue(body, "NEWS_WIFI_PASSWORD");
+    if (value.length() > 0) wifiPassword = value;
+    value = configValue(body, "GUARDIAN_API_KEY");
+    if (value.length() > 0) guardianApiKey = value;
+}
 
 String stripHtml(String text) {
     text.replace("&amp;", "&");
@@ -168,10 +225,10 @@ void redrawQuery() {
     M5.Lcd.setCursor(12, 58);
     M5.Lcd.print(query.substring(0, 32));
 
-    if (strlen(GUARDIAN_API_KEY) == 0) {
+    if (guardianApiKey.length() == 0) {
         M5.Lcd.setTextColor(TFT_ORANGE, kCypherBg);
         M5.Lcd.setCursor(8, 88);
-        M5.Lcd.print("Set src/secrets.h first");
+        M5.Lcd.print("Set /news-reader/config.txt");
     } else if (WiFi.status() != WL_CONNECTED) {
         M5.Lcd.setTextColor(TFT_ORANGE, kCypherBg);
         M5.Lcd.setCursor(8, 88);
@@ -318,12 +375,12 @@ void redrawReading() {
 }
 
 bool connectWifi() {
-    if (strlen(NEWS_WIFI_SSID) == 0) {
-        errorText = "Missing NEWS_WIFI_SSID in src/secrets.h";
+    if (wifiSsid.length() == 0) {
+        errorText = "Missing NEWS_WIFI_SSID in /news-reader/config.txt";
         return false;
     }
     WiFi.mode(WIFI_STA);
-    WiFi.begin(NEWS_WIFI_SSID, NEWS_WIFI_PASSWORD);
+    WiFi.begin(wifiSsid.c_str(), wifiPassword.c_str());
     redrawLoading("Connecting WiFi...");
 
     const unsigned long started = millis();
@@ -370,8 +427,8 @@ bool httpGetJson(const String& url, JsonDocument& doc) {
 }
 
 bool fetchSearch() {
-    if (strlen(GUARDIAN_API_KEY) == 0) {
-        errorText = "Missing GUARDIAN_API_KEY in src/secrets.h";
+    if (guardianApiKey.length() == 0) {
+        errorText = "Missing GUARDIAN_API_KEY in /news-reader/config.txt";
         return false;
     }
     if (WiFi.status() != WL_CONNECTED && !connectWifi()) {
@@ -387,7 +444,7 @@ bool fetchSearch() {
                  "/search?q=" + urlEncode(query) +
                  "&page-size=" + String(kMaxArticles) +
                  "&order-by=newest&show-fields=trailText,standfirst,byline" +
-                 "&api-key=" + urlEncode(GUARDIAN_API_KEY);
+                 "&api-key=" + urlEncode(guardianApiKey);
 
     JsonDocument doc;
     if (!httpGetJson(url, doc)) {
@@ -425,7 +482,7 @@ bool fetchArticleBody(Article& article) {
 
     String url = article.apiUrl +
                  "?show-fields=bodyText,trailText,standfirst,byline" +
-                 "&api-key=" + urlEncode(GUARDIAN_API_KEY);
+                 "&api-key=" + urlEncode(guardianApiKey);
     JsonDocument doc;
     if (!httpGetJson(url, doc)) {
         return false;
@@ -481,6 +538,9 @@ void handleKeyboard() {
     Keyboard_Class::KeysState keys = M5Cardputer.Keyboard.keysState();
     const bool up = M5Cardputer.Keyboard.isKeyPressed(kKeyUp);
     const bool down = M5Cardputer.Keyboard.isKeyPressed(kKeyDown);
+    if (keys.fn && keys.del) {
+        CypherLauncherReturn::returnToLauncher();
+    }
 
     if (screen == Screen::Query) {
         for (char c : keys.word) {
@@ -552,8 +612,9 @@ void setup() {
     M5.Lcd.setTextSize(1);
     M5.Lcd.setTextColor(kCypherText, kCypherBg);
     showCypherSplash();
+    loadConfigFromSd();
 
-    if (strlen(NEWS_WIFI_SSID) > 0) {
+    if (wifiSsid.length() > 0) {
         connectWifi();
     }
     redrawQuery();

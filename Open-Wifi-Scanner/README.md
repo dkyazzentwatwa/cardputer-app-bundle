@@ -49,6 +49,7 @@ ARROW_UP        Volume +
 ARROW_DOWN      Volume -
 
 KEY_OK          Start/Stop scanning   
+FN+DEL          Return to Cypher OS
 ```
 
 ## Disclaimer

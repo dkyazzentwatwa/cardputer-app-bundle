@@ -1,4 +1,5 @@
 #include "CardputerInput.h"
+#include "CypherLauncherReturn.h"
 
 char CardputerInput::handler() {
 
@@ -15,6 +16,9 @@ char CardputerInput::handler() {
 
         if (M5Cardputer.Keyboard.isPressed()) {
             Keyboard_Class::KeysState status = M5Cardputer.Keyboard.keysState();
+            if (status.fn && status.del) {
+                CypherLauncherReturn::returnToLauncher();
+            }
 
             if (status.enter) { // go to next menu
                 return KEY_OK;
@@ -75,6 +79,9 @@ void CardputerInput::flushInput(size_t ms) {
 char CardputerInput::readChar() {
     M5Cardputer.update();
     Keyboard_Class::KeysState status = M5Cardputer.Keyboard.keysState();
+    if (status.fn && status.del) {
+        CypherLauncherReturn::returnToLauncher();
+    }
     
     // State change
     if (!M5Cardputer.Keyboard.isChange()) return KEY_NONE;

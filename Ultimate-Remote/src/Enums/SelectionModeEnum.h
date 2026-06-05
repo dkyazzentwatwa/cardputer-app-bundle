@@ -8,6 +8,7 @@ enum class SelectionModeEnum {
     FAVORITES,
     FILES,
     ALL_REMOTES,
+    RETURN_TO_LAUNCHER,
     COUNT
 };
 

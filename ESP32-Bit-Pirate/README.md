@@ -159,6 +159,10 @@ The ESP32 Bit Pirate firmware provides three command-line interface (CLI) modes:
 
 All interfaces share the same command structure and can be used interchangeably ([more details](https://github.com/geo-tp/ESP32-Bus-Pirate/wiki/00-Terminal)).
 
+When launched from Cypher OS, type `launcher`, `return`, `cypher`, or `home`
+from the terminal prompt to reboot back to the Cypher OS launcher. In standalone
+Cardputer mode, `Fn+Del` also returns to Cypher OS.
+
 ## Mobile Web Interface over WiFi
 ![An iPhone screenshot showing the Bit Pirate firmware web interface](images/presentation_mobile.png)
 

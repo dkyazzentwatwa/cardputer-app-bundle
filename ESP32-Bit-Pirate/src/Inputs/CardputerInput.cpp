@@ -1,6 +1,7 @@
 #ifdef DEVICE_CARDPUTER
 
 #include "CardputerInput.h"
+#include "CypherLauncherReturn.h"
 
 
 char CardputerInput::handler() {
@@ -9,6 +10,9 @@ char CardputerInput::handler() {
         M5Cardputer.update();
         
         Keyboard_Class::KeysState status = M5Cardputer.Keyboard.keysState();
+        if (status.fn && status.del) {
+            CypherLauncherReturn::returnToLauncher();
+        }
         
         // Special arrows for scrolling, can be long pressed
         if (!status.fn && M5Cardputer.Keyboard.isKeyPressed(KEY_ARROW_UP)) {
@@ -66,6 +70,9 @@ void CardputerInput::waitPress(uint32_t timeoutMs) {
 char CardputerInput::readChar() {
     M5Cardputer.update();
     Keyboard_Class::KeysState status = M5Cardputer.Keyboard.keysState();
+    if (status.fn && status.del) {
+        CypherLauncherReturn::returnToLauncher();
+    }
     
     // Special arrows for scrolling, can be long pressed
     if (!status.fn && M5Cardputer.Keyboard.isKeyPressed(KEY_ARROW_UP)) {

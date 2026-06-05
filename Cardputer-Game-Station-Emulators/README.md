@@ -56,6 +56,7 @@ The built-in **Cardputer keyboard** is used for all controls:
 | 🔍 Zoom − | **Fn + ←** | Zoom out |
 | 🔍 Zoom + | **Fn + →**| Zoom in |
 | 🔘 Quit Game | **G0 (hold 1 s)** | Go back to menu |
+| 🏠 Return to Cypher OS | **Fn + Del** | Return to the Cypher OS launcher |
 
 > The `j` key is also bound as Button A to allow an alternative layout for player preference.
 

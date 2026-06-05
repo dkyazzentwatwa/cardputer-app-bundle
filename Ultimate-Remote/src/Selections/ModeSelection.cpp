@@ -45,6 +45,8 @@ const std::string ModeSelection::getSelectionModeToString(SelectionModeEnum mode
             return "READ FILES";
         case SelectionModeEnum::ALL_REMOTES:
             return "ALL REMOTES";
+        case SelectionModeEnum::RETURN_TO_LAUNCHER:
+            return "CYPHER OS";
         default:
             return "UNKNOWN";
     }
@@ -60,6 +62,8 @@ const std::string ModeSelection::getSelectionModeDescription(SelectionModeEnum m
             return "from sd card";
         case SelectionModeEnum::ALL_REMOTES:
             return "  available";
+        case SelectionModeEnum::RETURN_TO_LAUNCHER:
+            return "return launcher";
         default:
             return "UNKNOWN";
     }

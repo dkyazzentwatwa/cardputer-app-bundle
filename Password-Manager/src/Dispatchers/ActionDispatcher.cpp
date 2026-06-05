@@ -1,4 +1,5 @@
 #include "ActionDispatcher.h"
+#include "CypherLauncherReturn.h"
 
 ActionDispatcher::ActionDispatcher(DependencyProvider& provider)
     : provider(provider), 
@@ -119,6 +120,10 @@ void ActionDispatcher::executeAction(ActionEnum action) {
 
         case ActionEnum::UpdateSettings:
             provider.getUtilityController().handleGeneralSettings();
+            break;
+
+        case ActionEnum::ReturnToLauncher:
+            CypherLauncherReturn::returnToLauncher();
             break;
     }
 }

@@ -26,7 +26,8 @@ enum class ActionEnum {
     // App-level actions
     SendToUsb,
     ShowHelp,
-    UpdateSettings
+    UpdateSettings,
+    ReturnToLauncher
 };
 
 class ActionEnumMapper {
@@ -46,7 +47,8 @@ public:
             {ActionEnum::UpdateField, "Update Field"},
             {ActionEnum::SendToUsb, "Send to USB"},
             {ActionEnum::ShowHelp, "Show Help"},
-            {ActionEnum::UpdateSettings, "Settings"}
+            {ActionEnum::UpdateSettings, "Settings"},
+            {ActionEnum::ReturnToLauncher, "Cypher OS"}
         };
 
         auto it = actionToStringMap.find(action);

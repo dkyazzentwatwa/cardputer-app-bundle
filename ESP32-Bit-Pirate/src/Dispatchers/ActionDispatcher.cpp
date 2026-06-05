@@ -1,5 +1,6 @@
 #include "ActionDispatcher.h"
 #include "Data/AutoCompleteWords.h"
+#include "CypherLauncherReturn.h"
 
 /*
 Constructor
@@ -49,6 +50,11 @@ void ActionDispatcher::dispatch(const std::string& raw) {
 
     // Alias (or return raw if no alias)
     const std::string& finalRaw = provider.getAliasManager().expand(raw);
+    if (finalRaw == "launcher" || finalRaw == "return" || finalRaw == "cypher" || finalRaw == "home") {
+        provider.getTerminalView().println("Returning to Cypher OS...");
+        CypherLauncherReturn::returnToLauncher();
+        return;
+    }
 
     // Instructions
     if (provider.getInstructionTransformer().isInstructionCommand(finalRaw)) {
