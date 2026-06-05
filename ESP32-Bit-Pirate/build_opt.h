@@ -1,6 +1,6 @@
 -include
 src/ArduinoCardputerProfile.h
--I/Users/cypher/Documents/GitHub/new-cardputer-apps/ESP32-Bit-Pirate/src
+-Isrc
 -DARDUINO_USB_MODE=0
 -DARDUINO_USB_CDC_ON_BOOT=1
 -DCONFIG_TINYUSB_CDC_ENABLED=1

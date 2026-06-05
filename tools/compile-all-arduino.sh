@@ -41,14 +41,14 @@ compile_app() {
     --build-property "compiler.cpp.extra_flags=-I${SHARED_INCLUDE}"
   )
 
-  args+=("$@" "${app_dir}")
+  args+=("$@" ".")
 
   echo
   echo "[arduino] building ${slug} (${profile})"
   printf '[arduino] command: arduino-cli'
   printf ' %q' "${args[@]}"
   printf '\n'
-  if ! arduino-cli "${args[@]}"; then
+  if ! (cd "${app_dir}" && arduino-cli "${args[@]}"); then
     FAILURES+=("${slug}")
     return 0
   fi
