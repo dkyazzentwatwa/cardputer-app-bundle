@@ -1,0 +1,39 @@
+# macOS and editor noise
+.DS_Store
+**/.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Local AI/editor state
+.claude/
+.codex/
+.cursor/
+
+# Arduino CLI build output
+_arduino-build/
+build/
+*.tmp
+*.bak
+
+# PlatformIO local output
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# Local secrets and environment files
+*.env
+*.env.*
+!*.env.example
+secrets.h
+**/secrets.h
+wifi_config.h
+**/wifi_config.h
+
+# Logs and temporary runtime files
+*.log
+*.trace
+tmp/
+temp/
