@@ -1,0 +1,26 @@
+profiles:
+  cardputer:
+    fqbn: m5stack:esp32:m5stack_cardputer
+    platforms:
+      - platform: m5stack:esp32
+        platform_index_url: https://static-cdn.m5stack.com/resource/arduino/package_m5stack_index.json
+    libraries:
+      - M5Cardputer (1.1.1)
+      - dependency: M5Unified (0.2.17)
+      - dependency: M5GFX (0.2.22)
+      - dependency: IRremote (4.7.1)
+      - dependency: LibSSH-ESP32 (5.8.0)
+      - FastLED (3.10.3)
+
+  cardputer-adv:
+    fqbn: m5stack:esp32:m5stack_cardputer:FlashSize=8M,PartitionScheme=custom,USBMode=hwcdc,CDCOnBoot=cdc
+    platforms:
+      - platform: m5stack:esp32
+        platform_index_url: https://static-cdn.m5stack.com/resource/arduino/package_m5stack_index.json
+    libraries:
+      - M5Cardputer (1.1.1)
+      - dependency: M5Unified (0.2.17)
+      - dependency: M5GFX (0.2.22)
+      - dependency: IRremote (4.7.1)
+      - dependency: LibSSH-ESP32 (5.8.0)
+      - FastLED (3.10.3)

@@ -1,0 +1,64 @@
+profiles:
+  cardputer:
+    notes: M5 Cardputer build with the sketch-level custom 4M app / SPIFFS partition table.
+    fqbn: m5stack:esp32:m5stack_cardputer:FlashSize=8M,PartitionScheme=custom,USBMode=default,CDCOnBoot=cdc,MSCOnBoot=msc,DFUOnBoot=default,UploadMode=cdc,CPUFreq=240,FlashMode=qio,DebugLevel=none,EraseFlash=none
+    platforms:
+      - platform: m5stack:esp32
+        platform_index_url: https://static-cdn.m5stack.com/resource/arduino/package_m5stack_index.json
+    libraries:
+      - M5Cardputer (1.1.1)
+      - M5Unified (0.2.14)
+      - M5GFX (0.2.20)
+      - FastLED (3.10.3)
+      - ArduinoJson (7.3.0)
+      - OneWire (2.3.8)
+      - ESP32SPISlave (0.6.8)
+      - XModem (1.0.3)
+      - LibSSH-ESP32 (5.6.0)
+      - autowp-mcp2515 (1.2.1)
+      - SparkFun External EEPROM Arduino Library (3.2.10)
+      - OneWireNg (0.14.0)
+      - Adafruit Si4713 Library (1.2.3)
+      - IRremoteESP8266 (2.9.0)
+      - Async TCP (3.3.8)
+      - Ethernet (2.0.2)
+      - dir: lib/93cx6
+      - dir: lib/EEPROM_SPI_WE
+      - dir: lib/eModbus
+      - dir: lib/IRremote
+      - dir: lib/PN532
+      - dir: lib/RF24
+      - dir: lib/SmartRC-CC1101-Driver-Lib
+
+  cardputer-adv:
+    notes: M5 Cardputer ADV profile; build_opt.h maps BOARD_HAS_PSRAM to the ADV pin profile.
+    fqbn: m5stack:esp32:m5stack_cardputer:FlashSize=8M,PartitionScheme=custom,USBMode=default,CDCOnBoot=cdc,MSCOnBoot=msc,DFUOnBoot=default,UploadMode=cdc,CPUFreq=240,FlashMode=qio,PSRAM=enabled,DebugLevel=none,EraseFlash=none
+    platforms:
+      - platform: m5stack:esp32
+        platform_index_url: https://static-cdn.m5stack.com/resource/arduino/package_m5stack_index.json
+    libraries:
+      - M5Cardputer (1.1.1)
+      - M5Unified (0.2.14)
+      - M5GFX (0.2.20)
+      - FastLED (3.10.3)
+      - ArduinoJson (7.3.0)
+      - OneWire (2.3.8)
+      - ESP32SPISlave (0.6.8)
+      - XModem (1.0.3)
+      - LibSSH-ESP32 (5.6.0)
+      - autowp-mcp2515 (1.2.1)
+      - SparkFun External EEPROM Arduino Library (3.2.10)
+      - OneWireNg (0.14.0)
+      - Adafruit Si4713 Library (1.2.3)
+      - IRremoteESP8266 (2.9.0)
+      - Async TCP (3.3.8)
+      - Ethernet (2.0.2)
+      - dir: lib/93cx6
+      - dir: lib/EEPROM_SPI_WE
+      - dir: lib/eModbus
+      - dir: lib/IRremote
+      - dir: lib/PN532
+      - dir: lib/RF24
+      - dir: lib/SmartRC-CC1101-Driver-Lib
+
+default_profile: cardputer

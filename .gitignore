@@ -11,6 +11,7 @@
 .claude/
 .codex/
 .cursor/
+.nested-git-backups/
 
 # Arduino CLI build output
 _arduino-build/

@@ -1,0 +1,4 @@
+-I/Users/cypher/Documents/GitHub/new-cardputer-apps/Password-Manager/src
+-I/Users/cypher/Documents/GitHub/new-cardputer-apps/Password-Manager/lib/USBHIDKeyboard
+-DCONFIG_TINYUSB_HID_ENABLED=1
+-DARDUINO_USB_MODE=1
