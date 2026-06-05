@@ -16,6 +16,13 @@ jobs:
 
       - uses: arduino/setup-arduino-cli@v2
 
+      - name: Install M5Stack platform
+        run: |
+          arduino-cli config init --overwrite
+          arduino-cli config set board_manager.additional_urls https://static-cdn.m5stack.com/resource/arduino/package_m5stack_index.json
+          arduino-cli core update-index
+          arduino-cli core install m5stack:esp32@3.3.7
+
       - name: Build release binaries
         run: ./tools/package-release.sh
 
@@ -26,4 +33,3 @@ jobs:
             dist/release/*.bin
             dist/release/BUILD_REPORT.md
           fail_on_unmatched_files: true
-
